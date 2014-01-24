@@ -14,7 +14,6 @@ var terrain = [
   [W]
 ];
 
-
 module.exports = function(stage, opts) {
   return new Wall(stage, opts)
 }
@@ -66,6 +65,14 @@ Wall.prototype.isoTile = function(filename) {
     // bottom-left
     tile.anchor.x = 0.0;
     tile.anchor.y = 1;
+
+    tile.buttonMode = true;
+    tile.interactive = true;
+
+    tile.click = function (event) {
+        //TODO: set player tribe, peaceful people, target
+    };
+
     stage.addChild(tile);
   };
 }
