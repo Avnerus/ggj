@@ -52,6 +52,12 @@ var tileMethods = [grass, dirt, water];
 var avatar;
 var tiles = [];
 
+var avatar_mood_peaceful = PIXI.Texture.fromImage('assets/AvatarPeaceful.png');
+var avatar_mood_fighting = PIXI.Texture.fromImage('assets/AvatarFighting.png');
+var avatar_mood_fighting_wall = PIXI.Texture.fromImage('assets/AvatarFightingWall.png');
+var avatar_mood_building_wall = PIXI.Texture.fromImage('assets/AvatarBuildingWall.png');
+var avatar_mood_destroying_wall = PIXI.Texture.fromImage('assets/AvatarDestroyingWall.png');
+
 function isoTile(filename) {
   return function(x, y) {
     var tile = PIXI.Sprite.fromFrame(filename);
@@ -145,7 +151,7 @@ var coords = Coordinates();
 
 
 function stageAvatar(x, y) {
-  avatar = PIXI.Sprite.fromImage('assets/redOrb.png');
+  avatar = new PIXI.Sprite(avatar_mood_fighting);
 
   // track 2D position
   avatar.location = new PIXI.Point(x, y);
@@ -156,6 +162,37 @@ function stageAvatar(x, y) {
   avatar.anchor.x = 0;
   avatar.anchor.y = 1;
 
+  avatar.stateEnum = {
+	Peaceful : 0,
+	Fighting : 1,
+	Fighting_Wall : 2,
+	Building_Wall : 3,
+	Destroying_Wall : 4
+  };
+  avatar.state = avatar.stateEnum.Fighting;
+
+  avatar.set_state = function (state) {
+	switch (state) {
+		case avatar.stateEnum.Peaceful:
+			avatar.setTexture(avatar_mood_peaceful);
+		break;
+		case avatar.stateEnum.fighting:
+			avatar.setTexture(avatar_mood_fighting);
+		break;
+		case avatar.stateEnum.Fighting_Wall:
+			avatar.setTexture(avatar_mood_fighting_wall);
+		break;
+		case avatar.stateEnum.Building_Wall:
+			avatar.setTexture(avatar_mood_building_wall);
+		break;
+		case avatar.stateEnum.Destroying_Wall:
+			avatar.setTexture(avatar_mood_destroying_wall);
+		break;
+		default:
+			avatar.setTexture(avatar_mood_peacefull);
+	}
+  }
+  
   avatar.set_target = function (point) {
 	avatar.move_target={};
 	avatar.move_target.x = point.x;
@@ -181,6 +218,7 @@ function stageAvatar(x, y) {
 		avatar.position.y +=  ((avatar.move_target.y - avatar.position.y) < 0 ? -1 : +1) * mov_y;
 	} else {
 		avatar.move_target = null;
+		avatar.set_state(avatar.stateEnum.Building_Wall);
 	}
   };
   
