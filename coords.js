@@ -33,8 +33,9 @@ Coordinates.prototype.ddOffset = function(pt, byX, byY) {
 Coordinates.prototype.ddToAvatar = function(x, y) {
     x = Math.min(this.opts.mapWidth - 10, Math.max(0, x));
     y = Math.min(this.opts.mapHeight - 10, Math.max(0, y));
-    
+   
     var tile = this.ddToTile(x, y);
+    console.log(tile);
     return {
       x: tile.x - this.opts.avatarXOffset,
       y: tile.y + this.opts.avatarYOffset

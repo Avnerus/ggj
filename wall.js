@@ -8,7 +8,7 @@ var terrain = [
   [W],
   [W],
   [W],
-  [W],
+  [H],
   [W],
   [W],
   [W]
@@ -51,15 +51,17 @@ Wall.prototype.stageMap= function(terrain) {
 
       tileType = terrain[i][j];
       stageTile = this.tileMethods[tileType];
-      console.log("Place tile at " + iso.x + ", " + iso.y);
-      stageTile(this.stage, iso.x + this.opts.skewXOffset, iso.y + this.opts.skewYOffset);
+      if (stageTile) {
+         console.log("Place tile at " + iso.x + ", " + iso.y);
+         stageTile(this, iso.x + this.opts.skewXOffset, iso.y + this.opts.skewYOffset);
+      }
     }
   }
 }
 
 
 Wall.prototype.isoTile = function(filename) {
-  return function(stage, x, y) {
+  return function(wall, x, y) {
     var tile = PIXI.Sprite.fromFrame(filename);
     tile.position.x = x;
     tile.position.y = y;
@@ -75,8 +77,8 @@ Wall.prototype.isoTile = function(filename) {
         //TODO: set player tribe, peaceful people, target
     };
 
-    this.tiles.push(tile);
-    stage.addChild(tile);
+    wall.tiles.push(tile);
+    wall.stage.addChild(tile);
   };
 }
 

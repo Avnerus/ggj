@@ -39,7 +39,7 @@ var stage = new PIXI.Stage(0xEEFFFF);
 var renderer = new PIXI.autoDetectRenderer(STAGE_WIDTH, STAGE_HEIGHT);
 document.body.appendChild(renderer.view);
 
-var loader = new PIXI.AssetLoader(['assets/walls.json']);
+var loader = new PIXI.AssetLoader(['assets/walls.json', 'assets/dudes.json']);
 
 // Background
 var bg = new PIXI.Sprite.fromImage("assets/terrain.png");
@@ -76,6 +76,14 @@ loader.onComplete = start;
 loader.load();
 
 function start() {
+  var x = 80;
+  var y = 100;
+  for (var i = 0; i < 7; i++) {
+     var dude = require('./dude')(stage, "green",  gameOpts);
+     dude.setPosition({x: x, y: y});
+     dude.place();
+     y += 100;
+  }
   wall.place();
   avatar = stageAvatar(0, 0);
   console.log("BOOO");
