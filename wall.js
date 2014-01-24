@@ -32,6 +32,8 @@ function Wall(stage, opts) {
    // tiles
    var normal = this.isoTile('wall.png');
    this.tileMethods = [normal];
+   
+   this.tiles = [];
 }
 
 Wall.prototype.stageMap= function(terrain) {
@@ -73,6 +75,7 @@ Wall.prototype.isoTile = function(filename) {
         //TODO: set player tribe, peaceful people, target
     };
 
+    this.tiles.push(tile);
     stage.addChild(tile);
   };
 }
