@@ -33,10 +33,10 @@ var G = 0,
 var terrain = [
   [D, D, D, D, D, D, D, D, D, D, D, D],
   [D, D, D, D, D, D, D, D, D, D, D, D],
-  [D, D, D, D, D, D, D, D, D, D, D, D],
-  [D, D, D, D, D, D, D, D, D, D, D, D],
-  [D, D, D, D, D, D, D, D, D, D, D, D],
-  [D, D, D, D, D, D, D, D, D, D, D, D],
+  [D, D, D, D, D, G, G, G, D, D, D, D],
+  [D, D, D, D, W, W, W, G, D, D, D, D],
+  [D, D, D, D, W, W, W, G, D, D, D, D],
+  [D, D, D, D, W, W, W, G, D, D, D, D],
 ];
 
 // Tiles with height can exceed these dimensions.
@@ -49,6 +49,8 @@ var dirt = isoTile('dirtDouble.png');
 var water = isoTile('water.png');
 var tileMethods = [grass, dirt, water];
 
+var tiles = [];
+
 function isoTile(filename) {
   return function(x, y) {
     var tile = PIXI.Sprite.fromFrame(filename);
@@ -58,12 +60,14 @@ function isoTile(filename) {
     // bottom-left
     tile.anchor.x = 0.0;
     tile.anchor.y = 1;
+	
+	
     stage.addChild(tile);
+	tiles.push(tile);
   };
 }
 
 // 2D to isometric
-
 function ddToIso(x, y) {
   return {
     x: x - y,
