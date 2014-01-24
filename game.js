@@ -49,6 +49,7 @@ var dirt = isoTile('dirtDouble.png');
 var water = isoTile('water.png');
 var tileMethods = [grass, dirt, water];
 
+var avatar;
 var tiles = [];
 
 function isoTile(filename) {
@@ -61,7 +62,14 @@ function isoTile(filename) {
     tile.anchor.x = 0.0;
     tile.anchor.y = 1;
 	
+	tile.buttonMode = true;
+	tile.interactive = true;
 	
+	tile.click = function (event) {
+		//set avatar movement target
+		avatar.set_target(event.global);
+	};
+
     stage.addChild(tile);
 	tiles.push(tile);
   };
@@ -137,7 +145,7 @@ var coords = Coordinates();
 
 
 function stageAvatar(x, y) {
-  var avatar = PIXI.Sprite.fromImage('assets/redOrb.png');
+  avatar = PIXI.Sprite.fromImage('assets/redOrb.png');
 
   // track 2D position
   avatar.location = new PIXI.Point(x, y);
@@ -148,6 +156,34 @@ function stageAvatar(x, y) {
   avatar.anchor.x = 0;
   avatar.anchor.y = 1;
 
+  avatar.set_target = function (point) {
+	avatar.move_target={};
+	avatar.move_target.x = point.x;
+	avatar.move_target.y = point.y;
+  };
+  
+  avatar.move = function () {
+	if (avatar.move_target == null) { return; }
+	
+	var abs_x = Math.abs(avatar.move_target.x - avatar.position.x);
+	var abs_y = Math.abs(avatar.move_target.y - avatar.position.y);
+	
+	if (
+		abs_x > 2 ||
+		abs_y > 2
+	) {
+		// Magic math to do smooth movement
+		var v = abs_x / abs_y;
+		var mov_x = 2 * v / (v + 1);
+		var mov_y = 2 / (v +1);
+		
+		avatar.position.x +=  ((avatar.move_target.x - avatar.position.x) < 0 ? -1 : +1) * mov_x;
+		avatar.position.y +=  ((avatar.move_target.y - avatar.position.y) < 0 ? -1 : +1) * mov_y;
+	} else {
+		avatar.move_target = null;
+	}
+  };
+  
   stage.addChild(avatar);
   return avatar;
 }
@@ -163,7 +199,10 @@ function start() {
   function animate() {
     // keyboard handler
     // kd.tick();
-    requestAnimationFrame(animate);
+	
+	avatar.move();
+
+	requestAnimationFrame(animate);
     renderer.render(stage);
   }
   requestAnimationFrame(animate);
