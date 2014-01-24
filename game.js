@@ -6,10 +6,10 @@ var PIXI = require('pixi');
 // avatar is 32x32 + 6px for shadow
 var AVATAR_X_OFFSET = 32 / 2;
 var AVATAR_Y_OFFSET = 32 / 2;
-var MAP_WIDTH = 250;
-var MAP_HEIGHT = 250;
-var STAGE_WIDTH = 700;
-var STAGE_HEIGHT = 300;
+var MAP_WIDTH = 1366;
+var MAP_HEIGHT = 768;
+var STAGE_WIDTH = 1366;
+var STAGE_HEIGHT = 768;
 var TILE_WIDTH = 50;
 var TILE_HEIGHT = 50;
 var THICKNESS = 8; // 10 pixels of dirt height
@@ -31,11 +31,12 @@ var G = 0,
   D = 1,
   W = 2;
 var terrain = [
-  [D, D, G, G, W],
-  [D, D, G, G, W],
-  [D, G, G, W, W],
-  [D, G, W, W, W],
-  [D, G, W, W, W],
+  [D, D, D, D, D, D, D, D, D, D, D, D],
+  [D, D, D, D, D, D, D, D, D, D, D, D],
+  [D, D, D, D, D, D, D, D, D, D, D, D],
+  [D, D, D, D, D, D, D, D, D, D, D, D],
+  [D, D, D, D, D, D, D, D, D, D, D, D],
+  [D, D, D, D, D, D, D, D, D, D, D, D],
 ];
 
 // Tiles with height can exceed these dimensions.
@@ -44,7 +45,7 @@ var tileWidth = 50;
 
 // tiles
 var grass = isoTile('grass.png');
-var dirt = isoTile('dirt.png');
+var dirt = isoTile('dirtDouble.png');
 var water = isoTile('water.png');
 var tileMethods = [grass, dirt, water];
 
@@ -84,6 +85,7 @@ function stageMap(terrain) {
 
       tileType = terrain[i][j];
       stageTile = tileMethods[tileType];
+      console.log("Place tile at " + iso.x + ", " + iso.y);
       stageTile(iso.x + SKEW_X_OFFSET, iso.y + SKEW_Y_OFFSET);
     }
   }
@@ -146,39 +148,6 @@ function stageAvatar(x, y) {
   return avatar;
 }
 
-function moveAvatar(byX, byY) {
-  // ensures avatar stays within bounds
-  coords.ddOffset(avatar.location, byX, byY);
-
-  var p = coords.ddToAvatar(avatar.location.x, avatar.location.y);
-  avatar.position.x = p.x;
-  avatar.position.y = p.y;
-}
-
-// keyboard input, ARROW to move, SHIFT + ARROW to move on axis
-
-function moveUp(e) {
-  e.shiftKey ? moveAvatar(0, -2) : moveAvatar(-2, -2);
-}
-
-function moveDown(e) {
-  e.shiftKey ? moveAvatar(0, 2) : moveAvatar(2, 2);
-}
-
-function moveLeft(e) {
-  e.shiftKey ? moveAvatar(-2, 0) : moveAvatar(-2, 2);
-}
-
-function moveRight(e) {
-  e.shiftKey ? moveAvatar(2, 0) : moveAvatar(2, -2);
-}
-
-// game loop optimized keyboard handling
-/*kd.UP.down(moveUp);
-kd.DOWN.down(moveDown);
-kd.LEFT.down(moveLeft);
-kd.RIGHT.down(moveRight);
-*/
 
 loader.onComplete = start;
 loader.load();
