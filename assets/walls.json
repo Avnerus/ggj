@@ -2,11 +2,11 @@
 
 "wall.png":
 {
-	"frame": {"x":2,"y":2,"w":94,"h":97},
+	"frame": {"x":2,"y":2,"w":91,"h":101},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":94,"h":97},
-	"sourceSize": {"w":94,"h":97}
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":101},
+	"sourceSize": {"w":91,"h":101}
 }},
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker ",
@@ -15,6 +15,6 @@
 	"format": "RGBA8888",
 	"size": {"w":128,"h":128},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4dfa93c7f26dead6663b0d706dab8ccd:5239af901ee9e37fbf6b9bbf2770f543:5c2f5c663ae0680c530bc1f885567038$"
+	"smartupdate": "$TexturePacker:SmartUpdate:82bef229baa665bf0ebcefe4737cc500:046b83c4977d2625751915f552ec798a:5c2f5c663ae0680c530bc1f885567038$"
 }
 }
