@@ -59,6 +59,10 @@ Wall.prototype.stageMap= function(terrain) {
   }
 }
 
+Wall.prototype.getTilePosition = function(i) {
+   return {x: 0, y: i * this.opts.tileHeight }
+}
+
 
 Wall.prototype.isoTile = function(filename) {
   return function(wall, x, y) {

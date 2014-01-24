@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "beefy game.js:bundle.js 8080"
   },
   "repository": "",
   "author": "",
@@ -12,9 +12,7 @@
   "devDependencies": {
     "pixi": "~0.2.1",
     "beefy": "~0.7.1",
-    "browserify": "~3.20.0"
-  },
-  "scripts": {
-      "start": "beefy game.js:bundle.js 8080"
+    "browserify": "~3.20.0",
+    "tween": "~0.8.0"
   }
 }

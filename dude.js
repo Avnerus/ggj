@@ -1,3 +1,4 @@
+var TWEEN = require('tween');
 var PIXI = require('pixi');
 
 module.exports = function(stage, tribe, opts) {
@@ -43,8 +44,22 @@ Dude.prototype.setState = function(state) {
 Dude.prototype.setPosition = function(position) {
     var coords = require('./coords')(this.opts);
     this.sprite.position = coords.ddToAvatar(position.x, position.y);
-    console.log("Dude position at " + JSON.stringify(this.sprite.position));
 }
+
+Dude.prototype.goToWallPosition = function(i) {
+   var coords = require('./coords')(this.opts);
+   var wall = require('./wall')(this.stage, this.opts);
+   var target = wall.getTilePosition(i);
+   target = coords.ddToAvatar(target.x, target.y);
+   console.log("Dude target: ", target);
+   var tween = new TWEEN.Tween( this.sprite.position )
+      .to(target , 6000 )
+      .easing( TWEEN.Easing.Linear.None )
+      .onUpdate( function () {
+      } )
+      .start();
+}
+
 
 Dude.prototype.move = function () {
     if (this.move_target == null) { return; }

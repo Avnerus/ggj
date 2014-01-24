@@ -2,6 +2,7 @@
 /* globals PIXI, kd, requestAnimFrame */
 "use strict";
 var PIXI = require('pixi');
+var TWEEN = require('tween');
 
 // avatar is 32x32 + 6px for shadow
 var AVATAR_X_OFFSET = 32 / 2;
@@ -76,22 +77,23 @@ loader.onComplete = start;
 loader.load();
 
 function start() {
-  var x = 80;
+  var x = 250;
   var y = 100;
   for (var i = 0; i < 7; i++) {
      var dude = require('./dude')(stage, "green",  gameOpts);
      dude.setPosition({x: x, y: y});
      dude.place();
+     dude.goToWallPosition(4);     
+
      y += 100;
   }
   wall.place();
-  avatar = stageAvatar(0, 0);
-  console.log("BOOO");
 
   function animate() {
     // keyboard handler
     // kd.tick();
     requestAnimationFrame(animate);
+    TWEEN.update();
     renderer.render(stage);
   }
   requestAnimationFrame(animate);
