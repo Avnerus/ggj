@@ -1,0 +1,20 @@
+{
+  "name": "ggj",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "devDependencies": {
+    "pixi": "~0.2.1",
+    "beefy": "~0.7.1",
+    "browserify": "~3.20.0"
+  },
+  "scripts": {
+      "start": "beefy game.js:bundle.js 8080"
+  }
+}

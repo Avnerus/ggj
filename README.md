@@ -1,4 +1,4 @@
-ggj2
-====
+pixi-yaron
+==========
 
-Second attempt for Global Game Jam 2014
+Yaron invents a game and I code it
