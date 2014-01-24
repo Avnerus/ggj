@@ -43,7 +43,7 @@ Coordinates.prototype.ddToAvatar = function(x, y) {
 
 Coordinates.prototype.ddToIso = function(x, y) {
   return {
-    x: x - y,
-    y: (x + y) / 2
+    x: (x - y) / 2,
+    y: (x + y) / 3.6
   };
 }

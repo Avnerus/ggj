@@ -16,8 +16,8 @@ var THICKNESS = 8; // 10 pixels of dirt height
 
 // isometric view and anchor at bottom left skews everything,
 // basically moves the map so iso (0, 0) is near the middle top
-var SKEW_X_OFFSET = STAGE_WIDTH / 2 - TILE_WIDTH + 250 ;
-var SKEW_Y_OFFSET = TILE_HEIGHT * 2 + 160;
+var SKEW_X_OFFSET = STAGE_WIDTH / 2 - TILE_WIDTH + 230 ;
+var SKEW_Y_OFFSET = TILE_HEIGHT * 2 + 170;
 
 
 var gameOpts = {
