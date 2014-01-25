@@ -5,6 +5,7 @@ var PIXI = require('pixi');
 var TWEEN = require('tween');
 var EventEmitter = require('events').EventEmitter;
 var emitter = new EventEmitter;
+var Map = require('./map');
 
 // avatar is 32x32 + 6px for shadow
 var AVATAR_X_OFFSET = 32 / 2;
@@ -18,6 +19,7 @@ var TILE_HEIGHT = 97;
 var THICKNESS = 8; // 10 pixels of dirt height
 
 var PEOPLE_PER_TRIBE = 20;
+
 
 // isometric view and anchor at bottom left skews everything,
 // basically moves the map so iso (0, 0) is near the middle top
@@ -36,7 +38,8 @@ var gameOpts = {
     tileHeight: TILE_HEIGHT,
     thickness: THICKNESS,
     skewXOffset: SKEW_X_OFFSET,
-    skewYOffset: SKEW_Y_OFFSET
+    skewYOffset: SKEW_Y_OFFSET,
+    peoplePerTribe:PEOPLE_PER_TRIBE
 }
 
 var avatar;
@@ -80,19 +83,31 @@ loader.onComplete = start;
 loader.load();
 
 function start() {
+    this.gameMap = new Map(stage, emitter, gameOpts);
+
     var tribeOptsA = {
+        gameMap:this.gameMap,
         peoplePerTribe:PEOPLE_PER_TRIBE,
-        initX:250,
+        initX:370,
         initY:100,
-        tribeColor:'green'
+        tribeColor:'green',
+        firstRowFirstDudePoint:{
+            x:370,
+            y:100
+        }
     };
     var tribeA = require('./tribe').Tribe(stage, emitter, tribeOptsA, gameOpts);
 
     var tribeOptsB = {
+        gameMap:this.gameMap,
         peoplePerTribe:PEOPLE_PER_TRIBE,
-        initX:-250,
-        initY:100,
-        tribeColor:'blue'
+        initX:-410,
+        initY:70,
+        tribeColor:'blue',
+        firstRowFirstDudePoint:{
+            x:-410,
+            y:70
+        }
     };
     var tribeB = require('./tribe').Tribe(stage, emitter, tribeOptsB, gameOpts);
 
