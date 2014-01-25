@@ -61,19 +61,19 @@ Dude.prototype.toPeacefulMode = function(){
 
 Dude.prototype.onStateChanged = function(){
     switch (this.state){
-        case dudeMode[this.stateEnum.Peaceful]:
+        case this.stateEnum.Peaceful:
             this.toPeacefulMode();
             break;
-        case dudeMode[this.stateEnum.Fighting]:
+        case this.stateEnum.Fighting:
 
             break;
-        case dudeMode[this.stateEnum.Fighting_Wall]:
+        case this.stateEnum.Fighting_Wall:
 
             break;
-        case dudeMode[this.stateEnum.Building_Wall]:
+        case this.stateEnum.Building_Wall:
 
             break;
-        case dudeMode[this.stateEnum.Destroying_Wall]:
+        case this.stateEnum.Destroying_Wall:
 
             break;
     }
@@ -87,6 +87,9 @@ Dude.prototype.setPosition = function(position) {
 }
 
 Dude.prototype.goToPosition = function(target) {
+    this.gameMap.occupyTile(target.x, target.y);
+    
+    var coords = require('./coords')(this.gameOpts);
     target = coords.ddToAvatar(target.x, target.y);
 
     var lengthA = Math.abs(target.x - this.sprite.position.x);
@@ -96,15 +99,19 @@ Dude.prototype.goToPosition = function(target) {
     var lengthC = (lengthA * lengthA) + (lengthB * lengthB);
     var speedMs = lengthC * 300;
 
+    this.gameMap.freeTile(this.sprite.position.x, this.sprite.position.y);
+
+
+    var dude = this;
     console.log("Dude target: ", target);
     var tween = new TWEEN.Tween(this.sprite.position)
-        .to(target , speedMs)
+        .to(target , 6000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate(function(){
 
         })
         .onComplete(function(){
-            this.gameMap.occupyTile(this.sprite.position);
+
         }).start();
 }
 

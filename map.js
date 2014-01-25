@@ -21,7 +21,7 @@ function Map(stage, emitter, gameOpts) {
 Map.prototype.initMap = function(){
     var gameOpts =  this.gameOpts;
     var tileWidth = 30;
-    var tileHeight = 30;
+    var tileHeight = 50;
 
     this.numTilesWidth = parseInt(gameOpts.mapWidth / tileWidth);
     this.numTilesHeight = parseInt(gameOpts.mapHeight / tileHeight);
@@ -41,9 +41,11 @@ Map.prototype.initMap = function(){
 }
 
 Map.prototype.getFirstEmptyPeacefulPosition = function(){
+    console.log('getFirstEmptyPeacefulPosition ');
+
     for(var i = 0; i < this.numTilesWidth; i++){
         for(var j = 0; j  < this.numTilesHeight; j++){
-            var tile = numTilesWidth[i][j];
+            var tile = this.mapMatrix[i][j];
             if(!tile.isBlockOccupied){
                 return tile;
             }
@@ -51,11 +53,31 @@ Map.prototype.getFirstEmptyPeacefulPosition = function(){
     }
 }
 
+Map.prototype.freeTile = function(x, y){
+    var closestTile = this.getClosestTile(x, y);
+    if(closestTile && !closestTile.isBlockOccupied){
+        closestTile.isBlockOccupied = false;
+    }
+}
+
 Map.prototype.occupyTile = function(x, y){
     var closestTile = this.getClosestTile(x, y);
-    if(!closestTile.isBlockOccupied){
+    if(closestTile && !closestTile.isBlockOccupied){
         closestTile.isBlockOccupied = true;
     }
+}
+
+Map.prototype.getClosestFreeTile = function(x, y){
+    for(var i = 0; i < this.numTilesWidth; i++){
+        for(var j = 0; j  < this.numTilesHeight; j++){
+            var tile = this.mapMatrix[i][j];
+            if(Math.abs(x - tile.x) < 30 && Math.abs(y - tile.y) < 30 && tile.isBlockOccupied == false){
+                return tile;
+            }
+        }
+    }
+
+    return null;
 }
 
 Map.prototype.getClosestTile = function(x, y){
@@ -67,6 +89,8 @@ Map.prototype.getClosestTile = function(x, y){
             }
         }
     }
+
+    return null;
 }
 
 Map.prototype.isTileEmpty = function(x, y){
