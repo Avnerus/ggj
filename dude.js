@@ -83,12 +83,12 @@ Dude.prototype.setPosition = function(position) {
     var coords = require('./coords')(this.gameOpts);
     this.sprite.position = coords.ddToAvatar(position.x, position.y);
 
-    this.gameMap.occupyTile(position.x, position.y);
+    this.gameMap.occupyTile(position);
 }
 
 Dude.prototype.goToPosition = function(target) {
-    this.gameMap.occupyTile(target.x, target.y);
-    
+    this.gameMap.occupyTile(target);
+
     var coords = require('./coords')(this.gameOpts);
     target = coords.ddToAvatar(target.x, target.y);
 
@@ -99,7 +99,7 @@ Dude.prototype.goToPosition = function(target) {
     var lengthC = (lengthA * lengthA) + (lengthB * lengthB);
     var speedMs = lengthC * 300;
 
-    this.gameMap.freeTile(this.sprite.position.x, this.sprite.position.y);
+    this.gameMap.freeTile(this.sprite.position);
 
 
     var dude = this;

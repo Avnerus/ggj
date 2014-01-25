@@ -21,7 +21,7 @@ function Map(stage, emitter, gameOpts) {
 Map.prototype.initMap = function(){
     var gameOpts =  this.gameOpts;
     var tileWidth = 30;
-    var tileHeight = 50;
+    var tileHeight = 30;
 
     this.numTilesWidth = parseInt(gameOpts.mapWidth / tileWidth);
     this.numTilesHeight = parseInt(gameOpts.mapHeight / tileHeight);
@@ -33,7 +33,7 @@ Map.prototype.initMap = function(){
         for(var j = 0; j  < this.numTilesHeight; j++){
             this.mapMatrix[i][j] = {
                 x: -410 + (tileWidth * i),
-                y:70 + (tileHeight * j),
+                y:50 + (tileHeight * j),
                 isBlockOccupied: false
             }
         }
@@ -53,21 +53,23 @@ Map.prototype.getFirstEmptyPeacefulPosition = function(){
     }
 }
 
-Map.prototype.freeTile = function(x, y){
-    var closestTile = this.getClosestTile(x, y);
+Map.prototype.freeTile = function(position){
+    var closestTile = this.getClosestTile(position);
     if(closestTile && !closestTile.isBlockOccupied){
         closestTile.isBlockOccupied = false;
     }
 }
 
-Map.prototype.occupyTile = function(x, y){
-    var closestTile = this.getClosestTile(x, y);
+Map.prototype.occupyTile = function(position){
+    var closestTile = this.getClosestTile(position);
     if(closestTile && !closestTile.isBlockOccupied){
         closestTile.isBlockOccupied = true;
     }
 }
 
-Map.prototype.getClosestFreeTile = function(x, y){
+Map.prototype.getClosestFreeTile = function(position){
+    var x = position.x;
+    var y = position.y;
     for(var i = 0; i < this.numTilesWidth; i++){
         for(var j = 0; j  < this.numTilesHeight; j++){
             var tile = this.mapMatrix[i][j];
@@ -80,7 +82,9 @@ Map.prototype.getClosestFreeTile = function(x, y){
     return null;
 }
 
-Map.prototype.getClosestTile = function(x, y){
+Map.prototype.getClosestTile = function(position){
+    var x = position.x;
+    var y = position.y;
     for(var i = 0; i < this.numTilesWidth; i++){
         for(var j = 0; j  < this.numTilesHeight; j++){
             var tile = this.mapMatrix[i][j];
@@ -93,8 +97,8 @@ Map.prototype.getClosestTile = function(x, y){
     return null;
 }
 
-Map.prototype.isTileEmpty = function(x, y){
-    var closestTile = this.getClosestTile(x, y);
+Map.prototype.isTileEmpty = function(position){
+    var closestTile = this.getClosestTile(position);
     if(closestTile){
         return !closestTile.isBlockOccupied;
     }
