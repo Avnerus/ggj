@@ -1,6 +1,14 @@
 {"frames": {
 
-"wall.png":
+"wall_broken.png":
+{
+	"frame": {"x":2,"y":105,"w":69,"h":41},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":44,"w":69,"h":41},
+	"sourceSize": {"w":91,"h":101}
+},
+"wall_normal.png":
 {
 	"frame": {"x":2,"y":2,"w":91,"h":101},
 	"rotated": false,
@@ -13,8 +21,8 @@
 	"version": "1.0",
 	"image": "walls.png",
 	"format": "RGBA8888",
-	"size": {"w":128,"h":128},
+	"size": {"w":128,"h":256},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:82bef229baa665bf0ebcefe4737cc500:046b83c4977d2625751915f552ec798a:5c2f5c663ae0680c530bc1f885567038$"
+	"smartupdate": "$TexturePacker:SmartUpdate:32ecda5f4b6ae0aec2151198e3298a1f:2fde9c19a19c64d11d2eeb816bc6cad4:5c2f5c663ae0680c530bc1f885567038$"
 }
 }

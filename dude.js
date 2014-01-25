@@ -1,8 +1,10 @@
 var TWEEN = require('tween');
 var PIXI = require('pixi');
+var EventEmitter = require('events').EventEmitter;
+var emitter = new EventEmitter;
 
-module.exports = function(stage, tribe, opts) {
-  return new Dude(stage, tribe,  opts)
+module.exports = function(stage, emitter, tribe, opts) {
+  return new Dude(stage, emitter, tribe, opts)
 }
 
 module.exports.Dude = Dude
@@ -15,15 +17,16 @@ var dude_mode = [
     'destroying_wall'
 ];
 
-function Dude(stage, tribe, opts) {
+function Dude(stage, emitter, tribe, opts) {
    // protect against people who forget 'new'
-   if (!(this instanceof Dude)) return new Dude(stage, opts)
+   if (!(this instanceof Dude)) return new Dude(stage, emitter, tribe, opts)
 
    // we need to store the passed in variables on 'this'
    // so that they are available to the .prototype methods
    this.stage = stage
    this.opts = opts || {}
    this.tribe = tribe;
+   this.emitter = emitter;
    
     this.stateEnum = {
         Peaceful : 0,
@@ -34,6 +37,10 @@ function Dude(stage, tribe, opts) {
     };
     this.state = this.stateEnum.Fighting;
     this.sprite = new PIXI.Sprite.fromFrame(this.tribe + "_" + dude_mode[this.state] + ".png");
+   
+    this.emitter.on('wallChanged', function(change) {
+        alert('wall changed!');
+    });
 }
 
 Dude.prototype.setState = function(state) {
@@ -43,6 +50,7 @@ Dude.prototype.setState = function(state) {
 
 Dude.prototype.setPosition = function(position) {
     var coords = require('./coords')(this.opts);
+    console.log("Dude at " , position);
     this.sprite.position = coords.ddToAvatar(position.x, position.y);
 }
 
@@ -84,7 +92,7 @@ Dude.prototype.move = function () {
     }
 }
 
-Dude.prototype.place = function(position) {
+Dude.prototype.place = function() {
    console.log("Placing Dude");
    this.stage.addChild(this.sprite);
    

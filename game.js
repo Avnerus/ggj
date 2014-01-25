@@ -3,6 +3,8 @@
 "use strict";
 var PIXI = require('pixi');
 var TWEEN = require('tween');
+var EventEmitter = require('events').EventEmitter;
+var emitter = new EventEmitter;
 
 // avatar is 32x32 + 6px for shadow
 var AVATAR_X_OFFSET = 32 / 2;
@@ -51,7 +53,7 @@ bg.position.y = STAGE_HEIGHT /2;
 stage.addChild(bg);
 
 // Wall
-var wall = require('./wall')(stage, gameOpts);
+var wall = require('./wall')(stage, emitter, gameOpts);
 var coords = require('./coords')(gameOpts);
 
 
@@ -80,7 +82,7 @@ function start() {
   var x = 250;
   var y = 100;
   for (var i = 0; i < 7; i++) {
-     var dude = require('./dude')(stage, "green",  gameOpts);
+     var dude = require('./dude')(stage, emitter, "green",  gameOpts);
      dude.setPosition({x: x, y: y});
      dude.place();
      dude.goToWallPosition(4);     
