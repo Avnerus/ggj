@@ -11,7 +11,7 @@ module.exports = function(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
 module.exports.Dude = Dude
 
 var dudeMode = [
-    'peacefull',
+    'peaceful',
     'fighting',
     'fighting_wall',
     'building_wall',
@@ -40,7 +40,8 @@ function Dude(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
         Fighting : 1,
         Fighting_Wall : 2,
         Building_Wall : 3,
-        Destroying_Wall : 4
+        Destroying_Wall : 4,
+        Fighting_Dude : 5
     };
     this.state = this.stateEnum.Fighting;
     this.sprite = new PIXI.Sprite.fromFrame(this.tribeColor + "_" + dudeMode[this.state] + ".png");

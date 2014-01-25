@@ -1,24 +1,8 @@
 {"frames": {
 
-"blue_building_wall.png":
-{
-	"frame": {"x":49,"y":42,"w":45,"h":38},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
-	"sourceSize": {"w":45,"h":38}
-},
-"blue_destroying_wall.png":
-{
-	"frame": {"x":2,"y":82,"w":45,"h":38},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
-	"sourceSize": {"w":45,"h":38}
-},
 "blue_fighting.png":
 {
-	"frame": {"x":49,"y":2,"w":45,"h":38},
+	"frame": {"x":36,"y":42,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
@@ -26,39 +10,31 @@
 },
 "blue_fighting_wall.png":
 {
-	"frame": {"x":2,"y":42,"w":45,"h":38},
+	"frame": {"x":36,"y":42,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
 	"sourceSize": {"w":45,"h":38}
 },
-"blue_peacefull.png":
+"blue_fighting_wall_dude.png":
 {
-	"frame": {"x":2,"y":2,"w":45,"h":38},
+	"frame": {"x":36,"y":42,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
 	"sourceSize": {"w":45,"h":38}
 },
-"green_building_wall.png":
+"blue_peaceful.png":
 {
-	"frame": {"x":49,"y":42,"w":45,"h":38},
+	"frame": {"x":2,"y":53,"w":32,"h":49},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
-	"sourceSize": {"w":45,"h":38}
-},
-"green_destroying_wall.png":
-{
-	"frame": {"x":2,"y":82,"w":45,"h":38},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
-	"sourceSize": {"w":45,"h":38}
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":49},
+	"sourceSize": {"w":32,"h":49}
 },
 "green_fighting.png":
 {
-	"frame": {"x":49,"y":2,"w":45,"h":38},
+	"frame": {"x":36,"y":2,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
@@ -66,19 +42,27 @@
 },
 "green_fighting_wall.png":
 {
-	"frame": {"x":2,"y":42,"w":45,"h":38},
+	"frame": {"x":36,"y":2,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
 	"sourceSize": {"w":45,"h":38}
 },
-"green_peacefull.png":
+"green_fighting_wall_dude.png":
 {
-	"frame": {"x":2,"y":2,"w":45,"h":38},
+	"frame": {"x":36,"y":2,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
 	"sourceSize": {"w":45,"h":38}
+},
+"green_peaceful.png":
+{
+	"frame": {"x":2,"y":2,"w":32,"h":49},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":49},
+	"sourceSize": {"w":32,"h":49}
 }},
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker ",
@@ -87,6 +71,6 @@
 	"format": "RGBA8888",
 	"size": {"w":128,"h":128},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:5ada7b741f5608d3d2d3d02dfcb1d586:a2009554abef1668b994575efb620193:426eb7828e1e9f03ef1c97a8bc3f6509$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5aab734188e9bc5c281e5f0462449435:37fe90b1054a5bca06bfc5288da4cf15:426eb7828e1e9f03ef1c97a8bc3f6509$"
 }
 }

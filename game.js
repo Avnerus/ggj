@@ -50,7 +50,7 @@ document.body.appendChild(renderer.view);
 var loader = new PIXI.AssetLoader(['assets/walls.json', 'assets/dudes.json']);
 
 // Background
-var bg = new PIXI.Sprite.fromImage("assets/terrain.png");
+var bg = new PIXI.Sprite.fromImage("assets/terrain.jpg");
 bg.anchor.x = 0.5;
 bg.anchor.y = 0.5;
 bg.position.x = STAGE_WIDTH / 2;
