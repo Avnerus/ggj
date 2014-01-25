@@ -20,11 +20,11 @@ function Map(stage, emitter, gameOpts) {
 
 Map.prototype.initMap = function(){
     var gameOpts =  this.gameOpts;
-    var tileWidth = 30;
-    var tileHeight = 50;
+    this.tileWidth = 30;
+    this.tileHeight = 30;
 
-    this.numTilesWidth = parseInt(gameOpts.mapWidth / tileWidth);
-    this.numTilesHeight = parseInt(gameOpts.mapHeight / tileHeight);
+    this.numTilesWidth = parseInt((gameOpts.mapWidth - 145) / this.tileWidth);
+    this.numTilesHeight = parseInt(gameOpts.mapHeight / this.tileHeight);
 
     this.mapMatrix = [];
     for(var i = 0; i < this.numTilesWidth; i++){
@@ -32,46 +32,57 @@ Map.prototype.initMap = function(){
 
         for(var j = 0; j  < this.numTilesHeight; j++){
             this.mapMatrix[i][j] = {
-                x: -410 + (tileWidth * i),
-                y:70 + (tileHeight * j),
+                x: -410 + (this.tileWidth * i),
+                y:50 + (this.tileHeight * j),
                 isBlockOccupied: false
             }
         }
     }
 }
 
-Map.prototype.getFirstEmptyPeacefulPosition = function(){
-    console.log('getFirstEmptyPeacefulPosition ');
-
-    for(var i = 0; i < this.numTilesWidth; i++){
-        for(var j = 0; j  < this.numTilesHeight; j++){
-            var tile = this.mapMatrix[i][j];
-            if(!tile.isBlockOccupied){
-                return tile;
+Map.prototype.getFirstEmptyPeacefulPosition = function(isFirstRowFromEnd){
+    if(!isFirstRowFromEnd){
+        for(var i = 0; i < this.numTilesWidth; i++){
+            for(var j = 0; j  < this.numTilesHeight; j++){
+                var tile = this.mapMatrix[i][j];
+                if(!tile.isBlockOccupied){
+                    return tile;
+                }
+            }
+        }
+    }else{
+        for(var i = this.numTilesWidth - 1; i >= 0; i--){
+            for(var j = this.numTilesHeight - 1; j  >= 0; j--){
+                var tile = this.mapMatrix[i][j];
+                if(!tile.isBlockOccupied){
+                    return tile;
+                }
             }
         }
     }
 }
 
-Map.prototype.freeTile = function(x, y){
-    var closestTile = this.getClosestTile(x, y);
+Map.prototype.freeTile = function(position){
+    var closestTile = this.getClosestTile(position);
     if(closestTile && !closestTile.isBlockOccupied){
         closestTile.isBlockOccupied = false;
     }
 }
 
-Map.prototype.occupyTile = function(x, y){
-    var closestTile = this.getClosestTile(x, y);
+Map.prototype.occupyTile = function(position){
+    var closestTile = this.getClosestTile(position);
     if(closestTile && !closestTile.isBlockOccupied){
         closestTile.isBlockOccupied = true;
     }
 }
 
-Map.prototype.getClosestFreeTile = function(x, y){
+Map.prototype.getClosestFreeTile = function(position){
+    var x = position.x;
+    var y = position.y;
     for(var i = 0; i < this.numTilesWidth; i++){
         for(var j = 0; j  < this.numTilesHeight; j++){
             var tile = this.mapMatrix[i][j];
-            if(Math.abs(x - tile.x) < 30 && Math.abs(y - tile.y) < 30 && tile.isBlockOccupied == false){
+            if(Math.abs(x - tile.x) < this.tileWidth && Math.abs(y - tile.y) < this.tileHeight && tile.isBlockOccupied == false){
                 return tile;
             }
         }
@@ -80,11 +91,13 @@ Map.prototype.getClosestFreeTile = function(x, y){
     return null;
 }
 
-Map.prototype.getClosestTile = function(x, y){
+Map.prototype.getClosestTile = function(position){
+    var x = position.x;
+    var y = position.y;
     for(var i = 0; i < this.numTilesWidth; i++){
         for(var j = 0; j  < this.numTilesHeight; j++){
             var tile = this.mapMatrix[i][j];
-            if(Math.abs(x - tile.x) < 30 && Math.abs(y - tile.y) < 30){
+            if(Math.abs(x - tile.x) < this.tileWidth && Math.abs(y - tile.y) < this.tileHeight){
                 return tile;
             }
         }
@@ -93,8 +106,8 @@ Map.prototype.getClosestTile = function(x, y){
     return null;
 }
 
-Map.prototype.isTileEmpty = function(x, y){
-    var closestTile = this.getClosestTile(x, y);
+Map.prototype.isTileEmpty = function(position){
+    var closestTile = this.getClosestTile(position);
     if(closestTile){
         return !closestTile.isBlockOccupied;
     }

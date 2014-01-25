@@ -29,7 +29,8 @@ function Tribe(stage, wall, emitter, tribeOpts, gameOpts) {
     this.dudeOpts = {
         firstRowFirstDudePoint:tribeOpts.firstRowFirstDudePoint,
         tribeColor:this.tribeColor,
-        gameMap:this.gameMap
+        gameMap:this.gameMap,
+        isFirstRowFromEnd:tribeOpts.isFirstRowFromEnd
     };
 
     this.tribePeople = [];

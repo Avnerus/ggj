@@ -28,12 +28,13 @@ function Dude(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
     this.gameOpts = gameOpts || {};
     this.dudeOpts = dudeOpts || {};
 
-    this.tribeColor = dudeOpts.tribeColor;
 
     this.tribe = tribe;
     this.wall = wall;
     this.mood = 20;
-    this.gameMap = dudeOpts.gameMap;
+    this.gameMap = dudeOpts.gameMap;this.tribeColor = dudeOpts.tribeColor;
+    this.isFirstRowFromEnd = dudeOpts.isFirstRowFromEnd;
+
 
     this.stateEnum = {
         Peaceful : 0,
@@ -54,7 +55,7 @@ Dude.prototype.setState = function(state) {
 }
 
 Dude.prototype.toPeacefulMode = function(){
-    var firstFreePeacefulTile = this.gameMap.getFirstEmptyPeacefulPosition();
+    var firstFreePeacefulTile = this.gameMap.getFirstEmptyPeacefulPosition(this.isFirstRowFromEnd);
     if(firstFreePeacefulTile){
         this.goToPosition(firstFreePeacefulTile);
     }
@@ -84,12 +85,12 @@ Dude.prototype.setPosition = function(position) {
     var coords = require('./coords')(this.gameOpts);
     this.sprite.position = coords.ddToAvatar(position.x, position.y);
 
-    this.gameMap.occupyTile(position.x, position.y);
+    this.gameMap.occupyTile(position);
 }
 
 Dude.prototype.goToPosition = function(target) {
-    this.gameMap.occupyTile(target.x, target.y);
-    
+    this.gameMap.occupyTile(target);
+
     var coords = require('./coords')(this.gameOpts);
     target = coords.ddToAvatar(target.x, target.y);
 
@@ -100,7 +101,7 @@ Dude.prototype.goToPosition = function(target) {
     var lengthC = (lengthA * lengthA) + (lengthB * lengthB);
     var speedMs = lengthC * 300;
 
-    this.gameMap.freeTile(this.sprite.position.x, this.sprite.position.y);
+    this.gameMap.freeTile(this.sprite.position);
 
 
     var dude = this;
