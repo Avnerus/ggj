@@ -28,12 +28,13 @@ function Dude(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
     this.gameOpts = gameOpts || {};
     this.dudeOpts = dudeOpts || {};
 
-    this.tribeColor = dudeOpts.tribeColor;
 
     this.tribe = tribe;
     this.wall = wall;
     this.mood = 20;
-    this.gameMap = dudeOpts.gameMap;
+    this.gameMap = dudeOpts.gameMap;this.tribeColor = dudeOpts.tribeColor;
+    this.isFirstRowFromEnd = dudeOpts.isFirstRowFromEnd;
+
 
     this.stateEnum = {
         Peaceful : 0,
@@ -53,7 +54,7 @@ Dude.prototype.setState = function(state) {
 }
 
 Dude.prototype.toPeacefulMode = function(){
-    var firstFreePeacefulTile = this.gameMap.getFirstEmptyPeacefulPosition();
+    var firstFreePeacefulTile = this.gameMap.getFirstEmptyPeacefulPosition(this.isFirstRowFromEnd);
     if(firstFreePeacefulTile){
         this.goToPosition(firstFreePeacefulTile);
     }

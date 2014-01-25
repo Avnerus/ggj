@@ -94,7 +94,8 @@ function start() {
         firstRowFirstDudePoint:{
             x:370,
             y:100
-        }
+        },
+        isFirstRowFromEnd:true
     };
     var tribeA = require('./tribe').Tribe(stage, wall, emitter, tribeOptsA, gameOpts);
 
@@ -107,7 +108,8 @@ function start() {
         firstRowFirstDudePoint:{
             x:-410,
             y:70
-        }
+        },
+        isFirstRowFromEnd:false
     };
     var tribeB = require('./tribe').Tribe(stage, wall, emitter, tribeOptsB, gameOpts);
 
