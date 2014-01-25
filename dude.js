@@ -28,7 +28,7 @@ function Dude(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
     this.gameOpts = gameOpts || {};
     this.dudeOpts = dudeOpts || {};
 
-
+    this.inMotion = false;
     this.tribe = tribe;
     this.wall = wall;
     this.mood = 20;
@@ -46,38 +46,58 @@ function Dude(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
     };
     this.state = this.stateEnum.Fighting;
     this.sprite = new PIXI.Sprite.fromFrame(this.tribeColor + "_" + dudeMode[this.state] + ".png");
+    var dude = this;
+    var next = Math.random() * 3000;
+    setTimeout(function() {
+        dude.act();
+    }, next);
+}
+
+Dude.prototype.act = function() {
+    console.log("Dude acting!");
+    if (this.inMotion) {
+        console.log("Not acting because in motion");
+        return;
+    }
+    var next = Math.random() * 3000;
+    
+    switch (this.state){
+        case this.stateEnum.Peaceful:
+            this.toPeacefulMode();
+            break;
+        case this.stateEnum.Fighting:
+            var emptyWall = this.wall.getEmptyTileIndex();
+            if (emptyWall != -1) {
+                this.goToWallPosition(emptyWall);
+            }
+            break;
+        case this.stateEnum.Fighting_Wall:
+
+            break;
+        case this.stateEnum.Building_Wall:
+            break;
+        case this.stateEnum.Destroying_Wall:
+
+            break;
+    }
+    var dude = this;
+    setTimeout(function() {
+            dude.act();
+     }, next);
 }
 
 Dude.prototype.setState = function(state) {
     this.state = state;
     this.sprite.setTexture(new PIXI.Texture.fromFrame(this.tribeColor + "_" + dudeMode[this.state] + ".png"));
-    this.onStateChanged();
+    console.log("Stopping motion");
+    this.inMotion = false;
+    this.act();
 }
 
 Dude.prototype.toPeacefulMode = function(){
     var firstFreePeacefulTile = this.gameMap.getFirstEmptyPeacefulPosition(this.isFirstRowFromEnd);
     if(firstFreePeacefulTile){
         this.goToPosition(firstFreePeacefulTile);
-    }
-}
-
-Dude.prototype.onStateChanged = function(){
-    switch (this.state){
-        case this.stateEnum.Peaceful:
-            this.toPeacefulMode();
-            break;
-        case this.stateEnum.Fighting:
-
-            break;
-        case this.stateEnum.Fighting_Wall:
-
-            break;
-        case this.stateEnum.Building_Wall:
-
-            break;
-        case this.stateEnum.Destroying_Wall:
-
-            break;
     }
 }
 
@@ -106,6 +126,7 @@ Dude.prototype.goToPosition = function(target) {
 
     var dude = this;
     console.log("Dude target: ", target);
+    this.inMotion = true;
     var tween = new TWEEN.Tween(this.sprite.position)
         .to(target , 6000)
         .easing(TWEEN.Easing.Linear.None)
@@ -113,34 +134,15 @@ Dude.prototype.goToPosition = function(target) {
 
         })
         .onComplete(function(){
+            dude.inMotion = false;
 
         }).start();
 }
 
 Dude.prototype.goToWallPosition = function(i) {
-    var coords = require('./coords')(this.gameOpts);
-    var wall = require('./wall')(this.stage,this.emitter, this.gameOpts);
-
-    var target = wall.getTilePosition(i);
-    target = coords.ddToAvatar(target.x, target.y);
-
-    var lengthA = Math.abs(target.x - this.sprite.position.x);
-    var lengthB = Math.abs(target.y - this.sprite.position.y);
-
-    // pitagoras
-    var lengthC = (lengthA * lengthA) + (lengthB * lengthB);
-    var speedMs = lengthC * 300;
-
-    console.log("Dude target: ", target);
-    var tween = new TWEEN.Tween(this.sprite.position)
-        .to(target , speedMs)
-        .easing(TWEEN.Easing.Linear.None)
-        .onUpdate(function(){
-
-        })
-        .onComplete(function(){
-            this.gameMap.occupyTile(this.sprite.position);
-        }).start();
+    var target = this.wall.getTilePosition(i);
+    console.log("Going to ", target);
+    this.goToPosition(target);
 }
 
 Dude.prototype.update = function () {

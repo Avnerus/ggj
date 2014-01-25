@@ -74,6 +74,15 @@ Wall.prototype.getTilePosition = function(i) {
    return {x: 0, y: i * this.opts.tileHeight }
 }
 
+Wall.prototype.getEmptyTileIndex = function() {
+    var result = -1;
+    for (var i = 0; i < this.states.length && result == -1; i++) {
+        if (this.states[i] == this.stateEnum.Broken) {
+            result = i + 1;
+        }
+    }
+    return result;    
+}
 
 Wall.prototype.isoTile = function() {
   return function(wall, index, x, y) {
