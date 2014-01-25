@@ -57,6 +57,7 @@ bg.position.x = STAGE_WIDTH / 2;
 bg.position.y = STAGE_HEIGHT /2;
 stage.addChild(bg);
 
+
 // Wall
 var wall = require('./wall')(stage,emitter, gameOpts);
 var coords = require('./coords')(gameOpts);
@@ -113,7 +114,21 @@ function start() {
     };
     var tribeB = require('./tribe').Tribe(stage, wall, emitter, tribeOptsB, gameOpts);
 
+    var mountain_overlay = new PIXI.Sprite.fromImage("assets/mountain_overlay.png");
+    mountain_overlay.anchor.x = 0.5;
+    mountain_overlay.anchor.y = 0.5;
+    mountain_overlay.position.x = STAGE_WIDTH / 2;
+    mountain_overlay.position.y = STAGE_HEIGHT /2;
+    stage.addChild(mountain_overlay);
+
     wall.place();
+
+    var overlay = new PIXI.Sprite.fromImage("assets/overlay.png");
+    overlay.anchor.x = 0.5;
+    overlay.anchor.y = 0.5;
+    overlay.position.x = STAGE_WIDTH / 2;
+    overlay.position.y = STAGE_HEIGHT /2;
+    stage.addChild(overlay);
 
     function animate() {
         // keyboard handler
