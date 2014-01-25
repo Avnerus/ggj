@@ -63,7 +63,6 @@ Wall.prototype.getTilePosition = function(i) {
    return {x: 0, y: i * this.opts.tileHeight }
 }
 
-
 Wall.prototype.isoTile = function(filename) {
   return function(wall, x, y) {
     var tile = PIXI.Sprite.fromFrame(filename);

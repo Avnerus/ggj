@@ -52,12 +52,12 @@ Dude.prototype.goToWallPosition = function(i) {
    var target = wall.getTilePosition(i);
    target = coords.ddToAvatar(target.x, target.y);
    console.log("Dude target: ", target);
-   var tween = new TWEEN.Tween( this.sprite.position )
+   var tween = new TWEEN.Tween(this.sprite.position)
       .to(target , 6000 )
-      .easing( TWEEN.Easing.Linear.None )
-      .onUpdate( function () {
-      } )
-      .start();
+      .easing(TWEEN.Easing.Linear.None)
+      .onUpdate(function(){
+
+       }).start();
 }
 
 
@@ -67,10 +67,8 @@ Dude.prototype.move = function () {
     var abs_x = Math.abs(this.move_target.x - this.sprite.position.x);
     var abs_y = Math.abs(this.move_target.y - this.sprite.position.y);
 
-    if (
-        abs_x > 2 ||
-        abs_y > 2
-    ) {
+    if (abs_x > 2 ||
+        abs_y > 2) {
         // Magic math to do smooth movement
         var v = abs_x / abs_y;
         var mov_x = 2 * v / (v + 1);
@@ -87,5 +85,4 @@ Dude.prototype.move = function () {
 Dude.prototype.place = function(position) {
    console.log("Placing Dude");
    this.stage.addChild(this.sprite);
-   
 }
