@@ -37,6 +37,19 @@ function Wall(stage, emitter, opts) {
     ]
 
     this.tiles = [];
+    this.calculateOpennes();
+}
+
+
+Wall.prototype.calculateOpennes = function() {
+    var opened = 0;
+    for (var i = 0; i < this.states.length; i++) {
+        if (this.states[i] == this.stateEnum.Broken) {
+            opened++;
+        }
+    }
+    this.opennes = opened / this.states.length;
+    console.log("Wall opennes : " + this.opennes);
 }
 
 Wall.prototype.stageMap= function(terrain) {
@@ -98,6 +111,7 @@ Wall.prototype.setTileState = function(tile, state) {
     this.states[tile.index] = state;
     tile.setTexture(new PIXI.Texture.fromFrame(this.textures[state]));
     this.emitter.emit('wallChanged',{index: tile.index, state: state} );
+    this.calculateOpennes();
 }
 
 

@@ -1,8 +1,11 @@
 var TWEEN = require('tween');
 var PIXI = require('pixi');
 
-module.exports = function(stage, emitter, tribe, opts) {
-    return new Dude(stage, emitter, tribe,  opts)
+var FIGHTING_THRESHOLD = 15;
+var MAX_MOOD = 25;
+
+module.exports = function(stage, wall,  emitter, tribe, opts) {
+    return new Dude(stage, wall, emitter, tribe,  opts)
 }
 
 module.exports.Dude = Dude
@@ -15,15 +18,17 @@ var dude_mode = [
     'destroying_wall'
 ];
 
-function Dude(stage, emitter, tribe, opts) {
+function Dude(stage, wall, emitter, tribe, opts) {
     // protect against people who forget 'new'
-    if (!(this instanceof Dude)) return new Dude(stage, emitter, tribe, opts)
+    if (!(this instanceof Dude)) return new Dude(stage, wall, emitter, tribe, opts)
 
     // we need to store the passed in variables on 'this'
     // so that they are available to the .prototype methods
     this.stage = stage
     this.opts = opts || {}
     this.tribe = tribe;
+    this.wall = wall;
+    this.mood = 20;
 
     this.stateEnum = {
         Peaceful : 0,
@@ -38,7 +43,7 @@ function Dude(stage, emitter, tribe, opts) {
 
 Dude.prototype.setState = function(state) {
     this.state = state;
-    this.sprite.texture = new PIXI.Sprite.Texture.fromFrame(this.tribe + "_" + dude_mode[state] + ".png");
+    this.sprite.setTexture(new PIXI.Texture.fromFrame(this.tribe + "_" + dude_mode[state] + ".png"));
 }
 
 Dude.prototype.setPosition = function(position) {
@@ -69,9 +74,36 @@ Dude.prototype.goToWallPosition = function(i) {
         }).start();
 }
 
+Dude.prototype.update = function () {
+    var probTest = Math.random();
+    var randFactor = Math.random();
+    var effect;
+    if (this.wall.opennes >= probTest) {
+        effect = -1 * randFactor * 0.2;       
+    } else {
+        effect = 1 * randFactor * 0.2;
+    }
+    this.mood += effect;
+    
+    if (this.mood >= FIGHTING_THRESHOLD && this.state == this.stateEnum.Peaceful) {
+        this.setState(this.stateEnum.Fighting);
+    }
+    else if (this.mood < FIGHTING_THRESHOLD && this.state == this.stateEnum.Fighting) {
+        this.setState(this.stateEnum.Peaceful);
+    }
+    this.mood = Math.max(0, Math.min(this.mood, MAX_MOOD));
+
+    // console.log("Dude mood " + this.mood);
+  /*  if (this.mood == MAX_MOOD) {
+    alert('reached max mood ' + MAX_MOOD);
+    }
+    if (this.mood == 0) {
+        alert('reached mood 0');
+    }*/
+
+}
 
 Dude.prototype.move = function () {
-
 
 }
 

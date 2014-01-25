@@ -45,7 +45,7 @@ Coordinates.prototype.ddToAvatar = function(x, y) {
 Coordinates.prototype.ddToIso = function(x, y) {
   console.log("ddToIso: " + x + ", " + y);
   return {
-    x: (x - y) / 1.65,
-    y: (x + y) / 2.89 
+    x: (x - y) / 1.8,
+    y: (x + y) / 3.1 
   };
 }

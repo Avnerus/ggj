@@ -13,8 +13,8 @@ var MAP_WIDTH = 1024;
 var MAP_HEIGHT = 768;
 var STAGE_WIDTH = 1024;
 var STAGE_HEIGHT = 768;
-var TILE_WIDTH = 94;
-var TILE_HEIGHT = 97;
+var TILE_WIDTH = 91;
+var TILE_HEIGHT = 101;
 var THICKNESS = 8; // 10 pixels of dirt height
 
 var PEOPLE_PER_TRIBE = 20;
@@ -22,7 +22,7 @@ var PEOPLE_PER_TRIBE = 20;
 // isometric view and anchor at bottom left skews everything,
 // basically moves the map so iso (0, 0) is near the middle top
 var SKEW_X_OFFSET = STAGE_WIDTH / 2 - TILE_WIDTH + 240 ;
-var SKEW_Y_OFFSET = TILE_HEIGHT * 2 + 180;
+var SKEW_Y_OFFSET = TILE_HEIGHT * 2 + 170;
 
 
 var gameOpts = {
@@ -86,7 +86,7 @@ function start() {
         initY:100,
         tribeColor:'green'
     };
-    var tribeA = require('./tribe').Tribe(stage, emitter, tribeOptsA, gameOpts);
+    var tribeA = require('./tribe').Tribe(stage, wall, emitter, tribeOptsA, gameOpts);
 
     var tribeOptsB = {
         peoplePerTribe:PEOPLE_PER_TRIBE,
@@ -94,7 +94,7 @@ function start() {
         initY:100,
         tribeColor:'blue'
     };
-    var tribeB = require('./tribe').Tribe(stage, emitter, tribeOptsB, gameOpts);
+    var tribeB = require('./tribe').Tribe(stage, wall, emitter, tribeOptsB, gameOpts);
 
     wall.place();
 
@@ -103,6 +103,9 @@ function start() {
         // kd.tick();
         requestAnimationFrame(animate);
         TWEEN.update();
+        tribeA.update();
+        tribeB.update();
+        
         renderer.render(stage);
     }
     requestAnimationFrame(animate);

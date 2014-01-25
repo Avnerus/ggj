@@ -1,14 +1,14 @@
 var PIXI = require('pixi');
 
-module.exports = function(stage, emitter, opts) {
-    return new Tribe(stage, emitter, opts)
+module.exports = function(stage, wall, emitter, opts) {
+    return new Tribe(stage, wall, emitter, opts)
 }
 
 module.exports.Tribe = Tribe;
 
-function Tribe(stage, emitter, tribeOpts, gameOpts) {
+function Tribe(stage, wall, emitter, tribeOpts, gameOpts) {
     // protect against people who forget 'new'
-    if (!(this instanceof Tribe)) return new Tribe(stage, emitter, tribeOpts, gameOpts)
+    if (!(this instanceof Tribe)) return new Tribe(stage, wall, emitter, tribeOpts, gameOpts)
 
     // we need to store the passed in variables on 'this'
     // so that they are available to the .prototype methods
@@ -22,6 +22,7 @@ function Tribe(stage, emitter, tribeOpts, gameOpts) {
     this.initY = tribeOpts.initY;
     this.tribeColor = tribeOpts.tribeColor;
     this.emitter = emitter;
+    this.wall = wall;
 
 
     this.tribePeople = [];
@@ -29,13 +30,18 @@ function Tribe(stage, emitter, tribeOpts, gameOpts) {
 
 }
 
-//TODO: still need to edit below this point!
+Tribe.prototype.update = function() {
+    for (var i = 0; i < this.tribePeople.length; i++) {
+        var dude = this.tribePeople[i];
+        dude.update();
+    }
+}
 
 Tribe.prototype.initTribe = function() {
     var x = this.initX;
     var y = this.initY;
     for (var i=0; i < this.tribeOpts.peoplePerTribe; i++) {
-        var dude = require('./dude')(this.stage, this.emitter, this.tribeColor,  this.gameOpts);
+        var dude = require('./dude')(this.stage, this.wall, this.emitter, this.tribeColor,  this.gameOpts);
         dude.setPosition({x: x, y: y});
         dude.place();
 //        dude.goToWallPosition(4);
