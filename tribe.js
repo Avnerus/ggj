@@ -53,7 +53,7 @@ Tribe.prototype.initTribe = function() {
     var x = this.initX;
     var y = this.initY;
     for (var i=0; i < this.tribeOpts.peoplePerTribe; i++) {
-        var dude = require('./dude')(this.stage, this.emitter, this, this.gameOpts, this.dudeOpts);
+        var dude = require('./dude')(this.stage, this.emitter, this.wall, this, this.gameOpts, this.dudeOpts);
         dude.setPosition({x: x, y: y});
         dude.place();
 //        dude.goToWallPosition(4);

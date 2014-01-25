@@ -1,8 +1,11 @@
 var TWEEN = require('tween');
 var PIXI = require('pixi');
 
-module.exports = function(stage, emitter, tribe, gameOpts, dudeOpts) {
-    return new Dude(stage, emitter, tribe,  gameOpts, dudeOpts)
+var FIGHTING_THRESHOLD = 15;
+var MAX_MOOD = 25;
+
+module.exports = function(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
+    return new Dude(stage, emitter, wall,  tribe, gameOpts, dudeOpts)
 }
 
 module.exports.Dude = Dude
@@ -15,7 +18,7 @@ var dudeMode = [
     'destroying_wall'
 ];
 
-function Dude(stage, emitter, tribe, gameOpts, dudeOpts) {
+function Dude(stage, emitter, wall, tribe, gameOpts, dudeOpts) {
     // protect against people who forget 'new'
     if (!(this instanceof Dude)) return new Dude(stage, emitter, tribe, gameOpts, dudeOpts)
 
@@ -45,8 +48,7 @@ function Dude(stage, emitter, tribe, gameOpts, dudeOpts) {
 
 Dude.prototype.setState = function(state) {
     this.state = state;
-    this.sprite.setTexture(new PIXI.Texture.fromFrame(this.tribe + "_" + dude_mode[state] + ".png"));
-    this.sprite.texture = new PIXI.Sprite.Texture.fromFrame(this.tribeColor + "_" + dudeMode[state] + ".png");
+    this.sprite.setTexture(new PIXI.Texture.fromFrame(this.tribeColor + "_" + dudeMode[this.state] + ".png"));
     this.onStateChanged();
 }
 

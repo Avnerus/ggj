@@ -101,7 +101,7 @@ function start() {
     var tribeOptsB = {
         gameMap:this.gameMap,
         peoplePerTribe:PEOPLE_PER_TRIBE,
-        initX:-410,
+        initX:-300,
         initY:70,
         tribeColor:'blue',
         firstRowFirstDudePoint:{
