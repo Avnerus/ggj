@@ -31,11 +31,11 @@ Coordinates.prototype.ddOffset = function(pt, byX, byY) {
   // Avatars avatar has depth too so we must ensure
 
 Coordinates.prototype.ddToAvatar = function(x, y) {
-    x = Math.min(this.opts.mapWidth - 10, Math.max(0, x));
-    y = Math.min(this.opts.mapHeight - 10, Math.max(0, y));
-  
+//    x = Math.min(this.opts.mapWidth - 10, Math.max(0, x));
+//    y = Math.min(this.opts.mapHeight - 10, Math.max(0, y));
+   
     var tile = this.ddToTile(x, y);
-    console.log("Tile ", tile);
+    console.log(tile);
     return {
       x: tile.x - this.opts.avatarXOffset,
       y: tile.y + this.opts.avatarYOffset
