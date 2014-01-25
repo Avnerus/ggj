@@ -58,7 +58,7 @@ Dude.prototype.goToWallPosition = function(i) {
 
     // pitagoras
     var lengthC = (lengthA * lengthA) + (lengthB * lengthB);
-    var speedMs = lengthC * 300; 
+    var speedMs = lengthC * 300;
 
     console.log("Dude target: ", target);
     var tween = new TWEEN.Tween(this.sprite.position)
