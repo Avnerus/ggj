@@ -1,8 +1,8 @@
 var TWEEN = require('tween');
 var PIXI = require('pixi');
 
-module.exports = function(stage, tribe, opts) {
-    return new Dude(stage, tribe,  opts)
+module.exports = function(stage, emitter, tribe, opts) {
+    return new Dude(stage, emitter, tribe,  opts)
 }
 
 module.exports.Dude = Dude
@@ -15,9 +15,9 @@ var dude_mode = [
     'destroying_wall'
 ];
 
-function Dude(stage, tribe, opts) {
+function Dude(stage, emitter, tribe, opts) {
     // protect against people who forget 'new'
-    if (!(this instanceof Dude)) return new Dude(stage, tribe, opts)
+    if (!(this instanceof Dude)) return new Dude(stage, emitter, tribe, opts)
 
     // we need to store the passed in variables on 'this'
     // so that they are available to the .prototype methods
@@ -48,7 +48,7 @@ Dude.prototype.setPosition = function(position) {
 
 Dude.prototype.goToWallPosition = function(i) {
     var coords = require('./coords')(this.opts);
-    var wall = require('./wall')(this.stage, this.opts);
+    var wall = require('./wall')(this.stage,this.emitter, this.opts);
 
     var target = wall.getTilePosition(i);
     target = coords.ddToAvatar(target.x, target.y);

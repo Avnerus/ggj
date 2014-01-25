@@ -3,6 +3,8 @@
 "use strict";
 var PIXI = require('pixi');
 var TWEEN = require('tween');
+var EventEmitter = require('events').EventEmitter;
+var emitter = new EventEmitter;
 
 // avatar is 32x32 + 6px for shadow
 var AVATAR_X_OFFSET = 32 / 2;
@@ -53,7 +55,7 @@ bg.position.y = STAGE_HEIGHT /2;
 stage.addChild(bg);
 
 // Wall
-var wall = require('./wall')(stage, gameOpts);
+var wall = require('./wall')(stage,emitter, gameOpts);
 var coords = require('./coords')(gameOpts);
 
 
@@ -84,7 +86,7 @@ function start() {
         initY:100,
         tribeColor:'green'
     };
-    var tribeA = require('./tribe').Tribe(stage, tribeOptsA, gameOpts);
+    var tribeA = require('./tribe').Tribe(stage, emitter, tribeOptsA, gameOpts);
 
     var tribeOptsB = {
         peoplePerTribe:PEOPLE_PER_TRIBE,
@@ -92,7 +94,7 @@ function start() {
         initY:100,
         tribeColor:'blue'
     };
-    var tribeB = require('./tribe').Tribe(stage, tribeOptsB, gameOpts);
+    var tribeB = require('./tribe').Tribe(stage, emitter, tribeOptsB, gameOpts);
 
     wall.place();
 
