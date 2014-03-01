@@ -31,8 +31,8 @@ Coordinates.prototype.ddOffset = function(pt, byX, byY) {
   // Avatars avatar has depth too so we must ensure
 
 Coordinates.prototype.ddToAvatar = function(x, y) {
-    x = Math.min(this.opts.mapWidth - 10, Math.max(0, x));
-    y = Math.min(this.opts.mapHeight - 10, Math.max(0, y));
+//    x = Math.min(this.opts.mapWidth - 10, Math.max(0, x));
+//    y = Math.min(this.opts.mapHeight - 10, Math.max(0, y));
    
     var tile = this.ddToTile(x, y);
     console.log(tile);
@@ -43,8 +43,9 @@ Coordinates.prototype.ddToAvatar = function(x, y) {
 }
 
 Coordinates.prototype.ddToIso = function(x, y) {
+  console.log("ddToIso: " + x + ", " + y);
   return {
-    x: (x - y) / 1.65,
-    y: (x + y) / 2.89 
+    x: (x - y) / 1.8,
+    y: (x + y) / 3.1 
   };
 }

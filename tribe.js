@@ -1,78 +1,66 @@
 var PIXI = require('pixi');
 
-module.exports = function(stage, opts) {
-  return new Tribe(stage, opts)
+module.exports = function(stage, wall, emitter, opts) {
+    return new Tribe(stage, wall, emitter, opts)
 }
 
-module.exports.Tribe = Tribe
+module.exports.Tribe = Tribe;
 
-function Tribe(stage, opts) {
-   // protect against people who forget 'new'
-   if (!(this instanceof Tribe)) return new Tribe(stage, opts)
+function Tribe(stage, wall, emitter, tribeOpts, gameOpts) {
+    // protect against people who forget 'new'
+    if (!(this instanceof Tribe)) return new Tribe(stage, wall, emitter, tribeOpts, gameOpts)
 
-   // we need to store the passed in variables on 'this'
-   // so that they are available to the .prototype methods
-   this.stage = stage
-   this.opts = opts || {}
+    // we need to store the passed in variables on 'this'
+    // so that they are available to the .prototype methods
 
-   this.people = [];
-}
+    this.stage = stage;
+    this.tribeOpts = tribeOpts || {};
+    this.gameMap = tribeOpts.gameMap;
 
-//TODO: still need to edit below this point!
+    this.gameOpts = gameOpts || {};
 
-Tribe.prototype.initTribe() {
-    for (var i=0; i < this.opts.peoplePerTribe; i++) {
-        var person = PIXI.Sprite.fromFrame('assets/AvatarFighting.png');
-        
-        
-    }
-}
+    this.peoplePerTribe = tribeOpts.peoplePerTribe;
+    this.initX = tribeOpts.initX;
+    this.initY = tribeOpts.initY;
+    this.tribeColor = tribeOpts.tribeColor;
+    this.emitter = emitter;
+    this.wall = wall;
 
-Wall.prototype.stageMap= function(terrain) {
-  var stageTile, tileType, x, y, iso;
-  var coords = require('./coords')(this.opts);
-
-  for (var i = 0, iL = terrain.length; i < iL; i++) {
-    for (var j = 0, jL = terrain[i].length; j < jL; j++) {
-      // dd 2D coordinate
-      x = j * this.opts.tileWidth;
-      y = i * this.opts.tileHeight;
-
-      // iso coordinate
-      iso = coords.ddToIso(x, y);
-
-      tileType = terrain[i][j];
-      stageTile = this.tileMethods[tileType];
-      console.log("Place tile at " + iso.x + ", " + iso.y);
-      stageTile(this.stage, iso.x + this.opts.skewXOffset, iso.y + this.opts.skewYOffset);
-    }
-  }
-}
-
-Wall.prototype.isoTile = function(filename) {
-  return function(stage, x, y) {
-    var tile = PIXI.Sprite.fromFrame(filename);
-    tile.position.x = x;
-    tile.position.y = y;
-
-    // bottom-left
-    tile.anchor.x = 0.0;
-    tile.anchor.y = 1;
-
-    tile.buttonMode = true;
-    tile.interactive = true;
-
-    tile.click = function (event) {
-        //TODO: set player tribe, peaceful people, target
+    this.dudeOpts = {
+        firstRowFirstDudePoint:tribeOpts.firstRowFirstDudePoint,
+        tribeColor:this.tribeColor,
+        gameMap:this.gameMap,
+        isFirstRowFromEnd:tribeOpts.isFirstRowFromEnd
     };
 
-    this.tiles.push(tile);
-    stage.addChild(tile);
-  };
+    this.tribePeople = [];
+    this.initTribe();
 }
 
+Tribe.prototype.getNextPeacefulPosition = function(){
+    for(var i = 0; i < this.tribePeople.length; i++){
 
-Wall.prototype.place = function(position) {
-   console.log("Placing wall");
-   this.stageMap(terrain);
+    }
+}
+
+Tribe.prototype.update = function() {
+    for (var i = 0; i < this.tribePeople.length; i++) {
+        var dude = this.tribePeople[i];
+        dude.update();
+    }
+}
+
+Tribe.prototype.initTribe = function() {
+    var x = this.initX;
+    var y = this.initY;
+    for (var i=0; i < this.tribeOpts.peoplePerTribe; i++) {
+        var dude = require('./dude')(this.stage, this.emitter, this.wall, this, this.gameOpts, this.dudeOpts);
+        dude.setPosition({x: x, y: y});
+        dude.place();
+//        dude.goToWallPosition(4);
+
+        y += 30;
+
+        this.tribePeople.push(dude);
+    }
 }

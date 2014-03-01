@@ -1,61 +1,72 @@
 var PIXI = require('pixi');
 
-// map
-var W = 0,
-  H = 1,
-  N = 2;
-var terrain = [
-  [W],
-  [W],
-  [W],
-  [H],
-  [W],
-  [W],
-  [W]
-];
-
-module.exports = function(stage, opts) {
-  return new Wall(stage, opts)
+module.exports = function(stage, emitter, opts) {
+  return new Wall(stage, emitter, opts)
 }
 
 module.exports.Wall = Wall
 
-function Wall(stage, opts) {
+function Wall(stage, emitter, opts) {
    // protect against people who forget 'new'
-   if (!(this instanceof Wall)) return new Wall(stage, opts)
+   if (!(this instanceof Wall)) return new Wall(stage, emitter, opts)
 
-   // we need to store the passed in variables on 'this'
-   // so that they are available to the .prototype methods
-   this.stage = stage
-   this.opts = opts || {}
+    // we need to store the passed in variables on 'this'
+    // so that they are available to the .prototype methods
+    this.stage = stage
+    this.opts = opts || {}
+    this.emitter = emitter;
 
-   // tiles
-   var normal = this.isoTile('wall.png');
-   this.tileMethods = [normal];
-   
-   this.tiles = [];
+    this.stateEnum = {
+        Normal : 0,
+        Broken : 1
+    };
+    
+    this.states =  [
+        this.stateEnum.Normal,
+        this.stateEnum.Normal,
+        this.stateEnum.Normal,
+        this.stateEnum.Broken,
+        this.stateEnum.Normal,
+        this.stateEnum.Normal,
+        this.stateEnum.Normal
+    ];
+
+    this.textures = [ 
+        'wall_normal.png',
+        'wall_broken.png'
+    ]
+
+    this.tiles = [];
+    this.calculateOpennes();
+}
+
+
+Wall.prototype.calculateOpennes = function() {
+    var opened = 0;
+    for (var i = 0; i < this.states.length; i++) {
+        if (this.states[i] == this.stateEnum.Broken) {
+            opened++;
+        }
+    }
+    this.opennes = opened / this.states.length;
+    console.log("Wall opennes : " + this.opennes);
 }
 
 Wall.prototype.stageMap= function(terrain) {
   var stageTile, tileType, x, y, iso;
   var coords = require('./coords')(this.opts);
 
-  for (var i = 0, iL = terrain.length; i < iL; i++) {
-    for (var j = 0, jL = terrain[i].length; j < jL; j++) {
-      // dd 2D coordinate
-      x = j * this.opts.tileWidth;
+  for (var i = 0, iL = this.states.length; i < iL; i++) {
       y = i * this.opts.tileHeight;
+      x = 0;
 
       // iso coordinate
       iso = coords.ddToIso(x, y);
-
-      tileType = terrain[i][j];
-      stageTile = this.tileMethods[tileType];
+      stageTile = this.isoTile(); 
       if (stageTile) {
          console.log("Place tile at " + iso.x + ", " + iso.y);
-         stageTile(this, iso.x + this.opts.skewXOffset, iso.y + this.opts.skewYOffset);
+         stageTile(this, i, iso.x + this.opts.skewXOffset, iso.y + this.opts.skewYOffset);
       }
-    }
   }
 }
 
@@ -63,10 +74,19 @@ Wall.prototype.getTilePosition = function(i) {
    return {x: 0, y: i * this.opts.tileHeight }
 }
 
+Wall.prototype.getEmptyTileIndex = function() {
+    var result = -1;
+    for (var i = 0; i < this.states.length && result == -1; i++) {
+        if (this.states[i] == this.stateEnum.Broken) {
+            result = i + 1;
+        }
+    }
+    return result;    
+}
 
-Wall.prototype.isoTile = function(filename) {
-  return function(wall, x, y) {
-    var tile = PIXI.Sprite.fromFrame(filename);
+Wall.prototype.isoTile = function() {
+  return function(wall, index, x, y) {
+    var tile = PIXI.Sprite.fromFrame(wall.textures[wall.states[index]]);
     tile.position.x = x;
     tile.position.y = y;
 
@@ -76,9 +96,10 @@ Wall.prototype.isoTile = function(filename) {
 
     tile.buttonMode = true;
     tile.interactive = true;
+    tile.index = index;
 
     tile.click = function (event) {
-        //TODO: set player tribe, peaceful people, target
+       wall.tileClicked(tile);
     };
 
     wall.tiles.push(tile);
@@ -86,8 +107,25 @@ Wall.prototype.isoTile = function(filename) {
   };
 }
 
+Wall.prototype.tileClicked = function(tile) {
+    var currentState = this.states[tile.index];
+    if (currentState == this.stateEnum.Normal) {
+        this.setTileState(tile, this.stateEnum.Broken);
+    } else if (currentState == this.stateEnum.Broken) {
+        this.setTileState(tile, this.stateEnum.Normal);
+    }
+}
+
+Wall.prototype.setTileState = function(tile, state) {
+    this.states[tile.index] = state;
+    tile.setTexture(new PIXI.Texture.fromFrame(this.textures[state]));
+    this.emitter.emit('wallChanged',{index: tile.index, state: state} );
+    this.calculateOpennes();
+}
+
+
 
 Wall.prototype.place = function(position) {
    console.log("Placing wall");
-   this.stageMap(terrain);
+   this.stageMap();
 }
